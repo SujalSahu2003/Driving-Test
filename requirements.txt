@@ -1,0 +1,10 @@
+colorama
+dipy
+h5py
+nibabel
+numpy
+packaging
+pygame
+scipy
+TIME-python
+tqdm
