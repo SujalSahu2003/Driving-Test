@@ -24,6 +24,15 @@ car_deceleration = 0.1
 
 # Initialize pygame
 pygame.init()
+pygame.mixer.init()  # Initialize sound mixer
+
+# Load sounds
+crash_sound = pygame.mixer.Sound('sounds/crash.wav')
+pygame.mixer.music.load('sounds/background_music.mp3')
+pygame.mixer.music.set_volume(0.3)  # Set background music volume (0.0 to 1.0)
+pygame.mixer.music.play(-1)  # Loop background music indefinitely
+
+# Set up display
 screen = pygame.display.set_mode((size))
 pygame.display.set_caption('🌟 Road Racer - A Driving Test by Sujal Kumar Sahu 🌟')
 icon = pygame.image.load('images/car_1.png')
@@ -145,6 +154,7 @@ while running:
                 score += 1
 
             if car_loc.colliderect(car2_loc) or car_loc.colliderect(car3_loc):
+                crash_sound.play()  # Play crash sound
                 game_over = True
                 crash_rect.center = car_loc.center
 
@@ -172,7 +182,7 @@ while running:
 
         # Drawing
         if game_over:
-            screen.fill(BACKGROUND_COLOR)  # Green background on crash
+            screen.fill(BACKGROUND_COLOR)
             screen.blit(crash_image, crash_rect)
             over_text = font.render('GAME OVER', True, WHITE)
             score_display = font.render(f'Score: {score}', True, RED)
@@ -199,7 +209,6 @@ while running:
             for vegetation_rect in vegetation_list:
                 screen.blit(vegetation_img, vegetation_rect)
 
-        # Always display score (shifted slightly inward)
         score_text = small_font.render(f"Score: {score}", True, RED)
         screen.blit(score_text, (100, 10))
 
